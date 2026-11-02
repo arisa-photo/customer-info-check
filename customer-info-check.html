@@ -1,0 +1,645 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>お客様情報の散らばり度チェック｜arisa newborn photo</title>
+<meta name="description" content="フォトグラファーのための、お客様情報の散らばり度チェック。10の質問で、今の管理のしかたを一緒に確認しよう。">
+<style>
+  :root{
+    --bg:#f5f3f0;
+    --btn:#86756a;
+    --ink:#2b2f36;
+    --text-2:#55606e;
+    --muted:#8b95a3;
+    --line:#e3e7ef;
+    --white:#ffffff;
+    --blue:#2b8fe0;
+    --blue-deep:#2f6fd6;
+    --green:#43c77a;
+    --yellow:#f6c02e;
+    --yellow-text:#c99400;
+    --red:#e2445c;
+    --navy:#2d3a5a;
+    --shadow:0 6px 18px rgba(40,60,100,.08);
+    --font-sans:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP","Yu Gothic",Meiryo,-apple-system,BlinkMacSystemFont,sans-serif;
+    --font-num:"Helvetica Neue",Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font-sans);
+    line-height:1.8;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:560px;margin:0 auto;padding:0 16px 64px}
+
+  .topbar{
+    position:sticky;top:0;z-index:10;
+    background:rgba(255,255,255,.95);box-shadow:0 1px 0 var(--line);
+    -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+  }
+  .topbar-inner{max-width:560px;margin:0 auto;padding:10px 16px;text-align:center}
+  .brand{display:block;letter-spacing:.12em;font-size:11px;color:var(--muted);line-height:1.4}
+  .topbar-title{display:block;font-weight:700;font-size:15px;color:var(--ink);line-height:1.5}
+
+  h1,h2,h3{font-weight:700;line-height:1.5;margin:0}
+  .eyebrow{display:block;text-align:center;font-weight:700;font-size:15px;color:var(--ink);margin-top:28px}
+  .title{text-align:center;font-size:26px;font-weight:800;color:var(--btn);margin:4px 0 0;letter-spacing:.02em}
+
+  .screen{display:none}
+  .screen.is-active{display:block}
+
+  /* カード：上に色のついたタブ */
+  .card{
+    position:relative;background:var(--white);border-radius:10px;box-shadow:var(--shadow);
+    padding:28px 20px 22px;margin-top:28px;
+  }
+  .card-title{text-align:center;font-size:18px;font-weight:700;color:var(--tab, var(--blue))}
+  .divider{height:1px;background:var(--line);margin:14px 0}
+
+  .badge{
+    position:absolute;top:-22px;left:-6px;z-index:1;
+    width:64px;height:64px;border-radius:50%;
+    background:var(--yellow);color:#fff;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    font-weight:700;line-height:1.15;text-align:center;
+    box-shadow:0 4px 10px rgba(246,192,46,.35);
+  }
+  .badge small{font-size:10px}
+  .badge b{font-family:var(--font-num);font-style:italic;font-size:18px;font-weight:800}
+
+  .btn{
+    display:block;width:100%;border:0;cursor:pointer;
+    font:inherit;font-size:16px;font-weight:700;letter-spacing:.05em;text-align:center;text-decoration:none;
+    padding:16px;border-radius:999px;color:#fff;
+    background:var(--btn);box-shadow:0 8px 16px rgba(134,117,106,.32);
+    transition:transform .1s, box-shadow .2s, opacity .2s;
+  }
+  .btn:hover{opacity:.92}
+  .btn:active{transform:translateY(2px);box-shadow:0 4px 10px rgba(134,117,106,.28)}
+  .btn-yellow{background:var(--yellow);box-shadow:0 8px 16px rgba(246,192,46,.38)}
+  .btn-red{background:var(--red);box-shadow:0 8px 16px rgba(226,68,92,.30)}
+  .btn-green{background:var(--green);box-shadow:0 8px 16px rgba(67,199,122,.35)}
+  .btn-white{background:var(--white);color:var(--text-2);box-shadow:0 6px 14px rgba(40,60,100,.12)}
+  /* パソコンでカーソルを当てたら白いボタンをブラウンに */
+  @media (hover:hover){.btn-white:hover{background:var(--btn);color:#fff;opacity:1}}
+  .btn-white{transition:transform .1s, box-shadow .2s, background .2s, color .2s}
+  .btn[aria-disabled="true"]{background:#e6e9ef;color:var(--muted);box-shadow:none;cursor:default;pointer-events:none}
+  .mt{margin-top:28px}
+
+  /* イラスト */
+  .ill{display:block;width:100%;max-width:320px;height:auto;margin:0 auto}
+  .float{animation:float 3.2s ease-in-out infinite}
+  .float-2{animation-delay:-.8s}
+  .float-3{animation-delay:-1.6s}
+  .float-4{animation-delay:-2.4s}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+  .intro-text{font-size:15px;margin:0 0 10px}
+  .intro-list{margin:0;padding-left:1.2em;font-size:14px;color:var(--text-2)}
+
+  .groups{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .group-card{padding:22px 8px 14px;text-align:center;margin-top:20px}
+  .group-card .card-title{font-size:16px}
+  .group-card .divider{margin:8px 6px}
+  .num{font-family:var(--font-num);font-style:italic;font-weight:800;color:var(--ink)}
+  .group-card .num{font-size:24px;display:block;margin-top:4px}
+  .see-all{display:flex;flex-direction:column;align-items:center;gap:2px;margin:18px auto 0;font-size:12px;font-weight:700;color:var(--muted);text-decoration:none}
+  .see-all span{font-size:14px;animation:nudge 1.6s ease-in-out infinite}
+  @keyframes nudge{50%{transform:translateY(3px)}}
+  #checklist{scroll-margin-top:66px}
+  html{scroll-behavior:smooth}
+  /* 回答した結果：スマホで1画面に収まるよう1枚にまとめて小さめに */
+  .cl-card{margin-top:16px;padding:14px 16px 10px}
+  .cl-group + .cl-group{margin-top:8px;padding-top:8px;border-top:1px solid var(--line)}
+  .cl-head{display:flex;align-items:baseline;gap:8px;font-size:14px;font-weight:700;margin-bottom:2px}
+  .cl-num{font-family:var(--font-num);font-style:italic;font-weight:800;font-size:16px;color:var(--ink)}
+  .cl-num small{font-style:normal;font-size:11px;font-weight:700}
+  .cl-row{display:flex;gap:8px;align-items:flex-start;padding:4px 0;font-size:12.5px;line-height:1.45;color:var(--muted)}
+  .cl-row.on{color:var(--ink);font-weight:700}
+  .cl-mark{flex:0 0 16px;height:16px;border-radius:50%;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;margin-top:1px}
+  .cl-row.on .cl-mark{background:var(--acc);border-color:var(--acc)}
+  .group-card .num small{font-family:var(--font-sans);font-style:normal;font-size:12px;font-weight:700}
+
+  /* 質問 */
+  .progress{margin-top:24px;display:flex;align-items:baseline;gap:6px}
+  .progress .num{font-size:28px;color:var(--btn)}
+  .progress span{font-size:14px;color:var(--muted);font-weight:700}
+  .progress-bar{height:8px;border-radius:999px;background:#e6dfd8;margin-top:8px;overflow:hidden}
+  .progress-bar span{display:block;height:100%;background:var(--btn);border-radius:999px;transition:width .3s ease}
+
+  .q-card{min-height:230px;display:flex;flex-direction:column;justify-content:center;animation:fade .3s ease}
+  /* 質問ごとのイラスト：黒い線＋差し色＋ドット */
+  .qi{display:block;width:160px;height:160px;margin:0 auto 14px}
+  .qi .ac{fill:var(--acc)}
+  .qi .acs{stroke:var(--acc)}
+  .q-text{font-size:19px;font-weight:700;line-height:1.75;margin:0}
+  .answers{display:grid;gap:14px;margin-top:28px}
+  .answers .btn{padding:18px}
+  .btn.is-picked{outline:3px solid var(--yellow);outline-offset:3px}
+  .back{display:block;margin:20px auto 0;background:none;border:0;font:inherit;font-size:14px;color:var(--muted);cursor:pointer;padding:8px}
+  .back:disabled{visibility:hidden}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+  /* 結果 */
+  .result-card{text-align:center}
+  .score{line-height:1;margin:6px 0 0}
+  .score .num{font-size:64px}
+  .score small{font-size:20px;font-weight:700;color:var(--muted);margin-left:4px}
+  .level{font-size:20px;font-weight:800;color:var(--tab);margin-top:10px}
+  .gauge{position:relative;height:10px;border-radius:999px;background:#e3e8f1;margin:18px 0 6px;overflow:hidden}
+  .gauge span{position:absolute;inset:0 auto 0 0;background:var(--tab);border-radius:999px;transition:width .8s ease}
+  .gauge-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--muted)}
+  .result-msg{margin:0;font-size:15px;text-align:left}
+
+  /* 1day案内の前のひとこと */
+  .lead-1day{text-align:center;margin:34px 0 -12px;font-size:16px;font-weight:700;color:var(--btn)}
+  .lead-1day::before,.lead-1day::after{content:"";display:inline-block;width:18px;height:2px;background:currentColor;vertical-align:middle;margin:0 10px;border-radius:2px}
+  .lead-1day[hidden]{display:none}
+  /* 構築代行：枠なしの1行案内。「＞」を丸いボタンに */
+  .daiko{display:block;text-decoration:none;cursor:pointer;transition:box-shadow .2s;margin-top:42px;text-align:center;background:var(--white);border-radius:10px;box-shadow:var(--shadow);padding:20px 18px}
+  .daiko-link{display:inline-flex;align-items:center;gap:10px;font-size:16px;font-weight:700;color:var(--btn);text-decoration:none}
+  .daiko-arrow{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:var(--btn);color:#fff;font-size:13px;box-shadow:0 4px 10px rgba(134,117,106,.32);transition:transform .2s}
+  .daiko:hover{box-shadow:0 8px 22px rgba(40,60,100,.14)}
+  .daiko:hover .daiko-arrow{transform:translateX(3px)}
+  .daiko[aria-disabled="true"]{pointer-events:none}
+  .daiko-desc{display:block;margin-top:8px;font-size:13px;color:var(--text-2)}
+  .info-card .ill{max-width:220px;margin-bottom:8px}
+  .info-card h3{text-align:center;font-size:19px;color:var(--tab)}
+  .info-card .pre{display:block;text-align:center;font-size:13px;font-weight:700;color:var(--ink)}
+  .info-card p{margin:12px 0 22px;font-size:14px;color:var(--text-2)}
+
+  .shot{font-size:13px;color:var(--text-2);text-align:center;margin-top:28px}
+  .note{font-size:12px;color:var(--muted);margin-top:24px}
+
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation:none!important;transition:none!important}
+  }
+</style>
+</head>
+<body>
+<!-- イラストで使うドット模様 -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <pattern id="dots" width="5" height="5" patternUnits="userSpaceOnUse">
+      <rect width="5" height="5" fill="#fff"/><circle cx="2.5" cy="2.5" r="1" fill="#6b6f76"/>
+    </pattern>
+  </defs>
+</svg>
+<header class="topbar">
+  <div class="topbar-inner">
+    <span class="brand">arisa newborn photo</span>
+    <span class="topbar-title">お客様情報の散らばり度チェック</span>
+  </div>
+</header>
+
+<div class="wrap">
+  <!-- はじめ -->
+  <section class="screen is-active" id="screen-intro">
+    <span class="eyebrow">フォトグラファーのための1分セルフチェック</span>
+    <h1 class="title">お客様情報<br>散らばっていませんか？</h1>
+
+    <div class="card no-tab">
+      <div class="badge"><small>全<span class="q-count">10</span>問</small><b>1分</b></div>
+      <svg class="ill" viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <ellipse cx="160" cy="190" rx="122" ry="7" fill="#eef1f7"/>
+        <!-- いす -->
+        <rect x="94" y="70" width="48" height="58" rx="10" fill="#3c4a6b"/>
+        <rect x="114" y="150" width="6" height="26" fill="#8b95a3"/>
+        <path d="M98 180 H136" stroke="#8b95a3" stroke-width="5" stroke-linecap="round"/>
+        <!-- 人 -->
+        <rect x="104" y="128" width="11" height="50" rx="5" fill="#2d3a5a"/>
+        <rect x="122" y="128" width="11" height="50" rx="5" fill="#2d3a5a"/>
+        <path d="M100 178 h17 v6 h-17 z M119 178 h17 v6 h-17 z" fill="#2b2f36"/>
+        <rect x="100" y="78" width="38" height="52" rx="14" fill="#f6c02e"/>
+        <circle cx="119" cy="62" r="13" fill="#f3c9a8"/>
+        <path d="M106 60 a13 13 0 0 1 26 -2 c-6 -6 -16 -6 -26 2 z" fill="#2d3a5a"/>
+        <path d="M132 94 L158 106" stroke="#f3c9a8" stroke-width="8" stroke-linecap="round"/>
+        <!-- 机とPC -->
+        <rect x="150" y="80" width="64" height="40" rx="4" fill="#dfe4ee"/>
+        <circle cx="182" cy="100" r="5" fill="#fff"/>
+        <path d="M144 120 H222" stroke="#c9d1de" stroke-width="4" stroke-linecap="round"/>
+        <rect x="66" y="122" width="186" height="8" rx="3" fill="#c9d1de"/>
+        <path d="M82 130 L72 186 M236 130 L246 186" stroke="#8b95a3" stroke-width="4" stroke-linecap="round"/>
+        <!-- 散らばった情報 -->
+        <g class="float"><g transform="translate(22 30)">
+          <rect width="44" height="44" rx="10" fill="#fff" stroke="#e3e7ef"/>
+          <rect x="9" y="12" width="26" height="17" rx="7" fill="#43c77a"/><path d="M15 27 l-3 7 l9 -6 z" fill="#43c77a"/>
+          <circle cx="16" cy="20.5" r="1.8" fill="#fff"/><circle cx="22" cy="20.5" r="1.8" fill="#fff"/><circle cx="28" cy="20.5" r="1.8" fill="#fff"/>
+        </g></g>
+        <g class="float float-2"><g transform="translate(246 18)">
+          <rect width="44" height="44" rx="10" fill="#fff" stroke="#e3e7ef"/>
+          <rect x="10" y="12" width="24" height="22" rx="3" fill="#f6c02e"/><rect x="10" y="12" width="24" height="6" rx="3" fill="#e0a800"/>
+          <g fill="#fff"><circle cx="16" cy="24" r="1.8"/><circle cx="22" cy="24" r="1.8"/><circle cx="28" cy="24" r="1.8"/><circle cx="16" cy="29.5" r="1.8"/></g>
+        </g></g>
+        <g class="float float-3"><g transform="translate(262 84)">
+          <rect width="44" height="44" rx="10" fill="#fff" stroke="#e3e7ef"/>
+          <path d="M22 35 C15 27 12 22 12 18 a10 10 0 0 1 20 0 c0 4 -3 9 -10 17 z" fill="#e2445c"/><circle cx="22" cy="18" r="4" fill="#fff"/>
+        </g></g>
+        <g class="float float-4"><g transform="translate(14 96)">
+          <rect width="44" height="44" rx="10" fill="#fff" stroke="#e3e7ef"/>
+          <rect x="17" y="12" width="10" height="5" rx="1.5" fill="#2b8fe0"/><rect x="9" y="15" width="26" height="18" rx="4" fill="#2b8fe0"/>
+          <circle cx="22" cy="24" r="6" fill="#fff"/><circle cx="22" cy="24" r="3" fill="#2b8fe0"/>
+        </g></g>
+        <path d="M200 40 v8 M196 44 h8" stroke="#2b8fe0" stroke-width="2" stroke-linecap="round"/>
+        <path d="M78 22 v6 M75 25 h6" stroke="#f6c02e" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <div class="divider"></div>
+      <p class="intro-text">お客様の連絡先、予約、住所、写真の掲載許可…。気づかないうちに、いろいろな場所に散らばっていませんか？</p>
+      <p class="intro-text">責めるためのチェックではありません。今の状態を、一緒に確認してみましょう。</p>
+      <ul class="intro-list">
+        <li>1問ずつ「はい／いいえ」をタップするだけ</li>
+      </ul>
+    </div>
+
+    <button class="btn mt" id="start">チェックをはじめる</button>
+  </section>
+
+  <!-- チェック -->
+  <section class="screen" id="screen-check">
+    <div class="progress"><span class="num" id="q-num">Q1</span><span>/ <span class="q-count">10</span></span></div>
+    <div class="progress-bar"><span id="q-bar" style="width:0"></span></div>
+    <div class="card q-card" id="q-card">
+      <div id="q-ill"></div>
+      <p class="q-text" id="q-text"></p>
+    </div>
+    <div class="answers">
+      <button class="btn btn-white" id="ans-yes">はい</button>
+      <button class="btn btn-white" id="ans-no">いいえ</button>
+    </div>
+    <button class="back" id="back">← 前の質問にもどる</button>
+  </section>
+
+  <!-- 結果 -->
+  <section class="screen" id="screen-result">
+    <span class="eyebrow">チェックおつかれさまでした</span>
+    <h1 class="title">あなたの情報散らばり度</h1>
+
+    <div class="card result-card" id="result-card">
+      <div class="badge"><small>あなたの</small><b style="font-style:normal;font-family:var(--font-sans);font-size:15px">結果</b></div>
+      <div class="score"><span class="num" id="score">0</span><small>/ <span class="q-count">10</span></small></div>
+      <div class="level" id="level"></div>
+      <div class="gauge" aria-hidden="true"><span id="gauge" style="width:0"></span></div>
+      <div class="gauge-labels"><span>すっきり</span><span>ちょっと散らばり</span><span>散らばり度高め</span></div>
+      <div class="divider"></div>
+      <p class="result-msg" id="result-msg"></p>
+    </div>
+
+    <a class="see-all" href="#checklist">あなたの回答一覧はこちら<span aria-hidden="true">↓</span></a>
+    <div id="checklist"></div>
+
+    <p class="lead-1day" id="lead-1day">1つでもチェックがついたあなたに</p>
+    <div class="card info-card" id="next-self" style="--tab:var(--red)">
+      <svg class="ill" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <ellipse cx="100" cy="143" rx="80" ry="5" fill="#eef1f7"/>
+        <!-- ボード -->
+        <rect x="76" y="12" width="108" height="74" rx="5" fill="#eceff5"/>
+        <path d="M100 86 L94 140 M160 86 L166 140" stroke="#c9d1de" stroke-width="4" stroke-linecap="round"/>
+        <g>
+          <rect x="88" y="26" width="10" height="10" rx="2" fill="#43c77a"/><path d="M90 31 l2.5 2.5 l4 -5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><rect x="104" y="28" width="66" height="6" rx="3" fill="#d7dce6"/>
+          <rect x="88" y="44" width="10" height="10" rx="2" fill="#43c77a"/><path d="M90 49 l2.5 2.5 l4 -5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><rect x="104" y="46" width="54" height="6" rx="3" fill="#d7dce6"/>
+          <rect x="88" y="62" width="10" height="10" rx="2" fill="#fff" stroke="#c9d1de"/><rect x="104" y="64" width="60" height="6" rx="3" fill="#f6c02e"/>
+        </g>
+        <!-- 人 -->
+        <rect x="40" y="98" width="9" height="42" rx="4" fill="#2d3a5a"/>
+        <rect x="53" y="98" width="9" height="42" rx="4" fill="#2d3a5a"/>
+        <path d="M36 138 h15 v5 h-15 z M51 138 h15 v5 h-15 z" fill="#2b2f36"/>
+        <rect x="36" y="56" width="30" height="46" rx="12" fill="#2b8fe0"/>
+        <circle cx="51" cy="42" r="11" fill="#f3c9a8"/>
+        <path d="M39 44 a12 12 0 0 1 24 -4 c-2 10 -4 18 -2 26 c-8 -2 -14 -2 -24 0 c2 -8 2 -14 2 -22 z" fill="#2d3a5a"/>
+        <circle cx="51" cy="43" r="9" fill="#f3c9a8"/>
+        <path d="M42 38 a9 9 0 0 1 18 0 c-6 -4 -12 -4 -18 0 z" fill="#2d3a5a"/>
+        <path d="M62 66 L82 52" stroke="#f3c9a8" stroke-width="6" stroke-linecap="round"/>
+        <path d="M180 100 v7 M176.5 103.5 h7" stroke="#e2445c" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <span class="pre">1/5 無料1day講座</span>
+      <h3>信頼されるフォトグラファーの<br>情報管理講座</h3>
+      <p>お客様情報を1か所にまとめて、安心して管理する方法を一緒に確認します。講座のご案内は、オープンチャットでお届けします。</p>
+      <a class="btn btn-red" id="openchat" target="_blank" rel="noopener">オープンチャットに参加する</a>
+    </div>
+
+    <!-- 枠のどこを押しても代行の資料へ -->
+    <a class="daiko" id="daiko" target="_blank" rel="noopener">
+      <span class="daiko-link">今すぐ整えて管理したい方はこちら<span class="daiko-arrow" aria-hidden="true">＞</span></span>
+      <span class="daiko-desc">お客様情報をまとめて管理するしくみを、arisaが代わりにお作りします。</span>
+    </a>
+
+    <p class="shot">この画面をスクリーンショットしておくと、あとで見返せます</p>
+    <button class="btn btn-white mt" id="retry">もう一度チェックする</button>
+    <p class="note">※このチェックは、管理のしかたを見直すきっかけにするためのものです。法律上の判断をするものではありません。<br>※回答内容（はい／いいえと結果）は、お名前などを含まない匿名のデータとして集計し、内容の改善に使わせていただきます。</p>
+  </section>
+</div>
+
+<script>
+// オープンチャットのリンク
+const OPENCHAT_URL = 'https://line.me/ti/g2/1C6r4AXAsc1FpjFYlZrcxKc9_njRyxtDdLG2nA?utm_source=invitation&utm_medium=link_copy&utm_campaign=default';
+// 構築代行のHPのリンク（決まったらここに入れる）
+const DAIKO_URL = 'https://friendly-pudding-f16.notion.site/Notion-2fae9930523b80d2a079ec5dca864c5e?source=copy_link';
+// 回答を Notion に集計する GAS のウェブアプリURL（空のあいだは送信しない）
+const COLLECT_URL = 'https://script.google.com/macros/s/AKfycbwtf_Aq0a_8RwoqrDZnlRTjppKgHLHh0N53ALod76h9ONcP1cqe_riH6BLMlyQq93CR/exec';
+
+const GROUPS = [
+  {
+    id: 'spread', name: 'まとまり', color: 'var(--blue)', text: 'var(--blue)',
+    items: [
+      'お客様の連絡先が、LINE・インスタのDM・スマホのメモなど、2か所以上に分かれている',
+      '予約の内容（日時・プラン・オプション）を書く場所が決まっていない',
+      '出張撮影の住所が、LINEのトーク履歴にしか残っていない',
+      '「このお客様、前回いつ撮影したっけ？」を探すのに時間がかかる',
+    ]
+  },
+  {
+    id: 'protect', name: '守り', color: 'var(--green)', text: 'var(--green)',
+    items: [
+      'SNSやHPに写真を載せていいか、許可をもらったかどうかを記録していない',
+      'お子さまの名前や生年月日を、カレンダーやメモにそのまま書いている',
+    ]
+  },
+  {
+    id: 'keep', name: '続け方', color: 'var(--yellow)', text: 'var(--yellow-text)',
+    items: [
+      'お礼や、1年後の記念撮影のご案内を、記憶に頼って送っている',
+      'スマホをなくしたり機種変更したりしたとき、お客様情報が残るか分からない',
+      '顧客管理を始めてみたけど、続かなかったことがある',
+      'お客様情報を見直す時間が、月に1回もとれていない',
+    ]
+  }
+];
+
+const LEVELS = [
+  { max: 2, name: 'すっきり', color: 'var(--green)', msg: 'かなり整っています。「はい」と答えたところだけ見直せば、さらに安心して管理できます。' },
+  { max: 5, name: 'ちょっと散らばり', color: 'var(--yellow)', text: 'var(--yellow-text)', msg: 'お客様情報が、少しずつあちこちに散らばり始めています。いまのうちに1か所にまとめておくと、お客様が増えてもあわてずに済みます。' },
+  { max: Infinity, name: '散らばり度高め', color: 'var(--red)', msg: '忙しい中で、その場その場でがんばってきた証拠です。全部を一度に直さなくて大丈夫。できるところから、一緒に整えていきましょう。' },
+];
+
+// 質問ごとのイラスト（キーは「グループid-番号」）
+const ILLUS = {
+  // 連絡先があちこちに
+  'spread-0': `
+    <path d="M74 74 L58 60 M126 72 L142 58 M126 124 L140 132" stroke-dasharray="3 7" fill="none"/>
+    <rect x="76" y="62" width="48" height="84" rx="8" fill="#fff"/>
+    <rect x="83" y="74" width="34" height="56" rx="2" fill="url(#dots)"/>
+    <path d="M95 138 h10" fill="none"/>
+    <rect class="ac" x="20" y="32" width="46" height="28" rx="12"/>
+    <path class="ac" d="M32 58 l-4 11 l13 -9"/>
+    <g fill="#fff" stroke="none"><circle cx="33" cy="46" r="3"/><circle cx="43" cy="46" r="3"/><circle cx="53" cy="46" r="3"/></g>
+    <rect x="142" y="26" width="34" height="40" rx="3" fill="#fff"/>
+    <path d="M149 38 h20 M149 47 h20 M149 56 h12" fill="none"/>
+    <path class="ac" d="M138 128 L180 112 L166 152 L157 136 Z"/>
+    <path d="M157 136 L180 112" fill="none"/>`,
+  // 予約を書く場所が決まっていない
+  'spread-1': `
+    <rect x="46" y="62" width="96" height="84" rx="6" fill="#fff"/>
+    <path class="ac" d="M46 80 V68 a6 6 0 0 1 6 -6 h84 a6 6 0 0 1 6 6 V80 Z"/>
+    <path d="M70 52 v18 M118 52 v18" fill="none"/>
+    <g>
+      <rect x="56" y="90" width="14" height="11" rx="2" fill="url(#dots)"/><rect x="76" y="90" width="14" height="11" rx="2" fill="#fff"/><rect x="96" y="90" width="14" height="11" rx="2" fill="#fff"/><rect x="116" y="90" width="14" height="11" rx="2" fill="url(#dots)"/>
+      <rect x="56" y="110" width="14" height="11" rx="2" fill="#fff"/><rect x="76" y="110" width="14" height="11" rx="2" fill="url(#dots)"/><rect x="96" y="110" width="14" height="11" rx="2" fill="#fff"/><rect x="116" y="110" width="14" height="11" rx="2" fill="#fff"/>
+    </g>
+    <g transform="rotate(-14 44 142)"><rect x="26" y="128" width="34" height="30" rx="2" fill="#fff"/><path d="M33 138 h20 M33 147 h14" fill="none"/></g>
+    <g transform="rotate(10 150 150)"><rect x="134" y="136" width="32" height="28" rx="2" fill="#fff"/><path d="M141 146 h18 M141 154 h12" fill="none"/></g>
+    <circle class="ac" cx="154" cy="50" r="19"/>
+    <text x="154" y="59" text-anchor="middle" font-size="25" font-weight="800" fill="#2b2f36" stroke="none" font-family="Arial,sans-serif">?</text>`,
+  // 住所がトーク履歴にしかない
+  'spread-2': `
+    <rect x="48" y="52" width="72" height="106" rx="10" fill="#fff"/>
+    <rect x="58" y="70" width="40" height="15" rx="7.5" fill="url(#dots)"/>
+    <rect x="70" y="93" width="40" height="15" rx="7.5" fill="#fff"/>
+    <rect x="58" y="116" width="46" height="15" rx="7.5" fill="url(#dots)"/>
+    <path d="M77 148 h14" fill="none"/>
+    <path d="M118 104 L132 96" stroke-dasharray="3 6" fill="none"/>
+    <path class="ac" d="M150 112 C136 96 130 86 130 74 a20 20 0 0 1 40 0 c0 12 -6 22 -20 38 z"/>
+    <circle cx="150" cy="74" r="7" fill="#fff"/>`,
+  // 前回の撮影がすぐ分からない
+  'spread-3': `
+    <rect x="44" y="58" width="72" height="90" rx="4" fill="#fff" transform="rotate(-7 80 103)"/>
+    <rect x="56" y="50" width="72" height="90" rx="4" fill="#fff"/>
+    <path d="M68 68 h46 M68 82 h46 M68 96 h30 M68 110 h38" fill="none"/>
+    <path d="M140 132 L160 152" stroke-width="12" fill="none"/>
+    <path class="acs" d="M140 132 L160 152" stroke-width="6" fill="none"/>
+    <circle cx="124" cy="116" r="22" fill="url(#dots)"/>
+    <circle class="ac" cx="154" cy="52" r="18"/>
+    <circle cx="154" cy="52" r="12" fill="#fff"/>
+    <path d="M154 45 v7 l5 4" fill="none"/>`,
+  // SNS掲載の許可を記録していない
+  'protect-0': `
+    <rect x="34" y="56" width="88" height="74" rx="4" fill="#fff"/>
+    <rect x="42" y="64" width="72" height="48" fill="url(#dots)"/>
+    <path class="ac" d="M42 112 L64 88 L78 102 L92 90 L114 112 Z"/>
+    <circle cx="98" cy="76" r="6" fill="#fff"/>
+    <path d="M60 122 h36" fill="none"/>
+    <path class="ac" d="M152 66 c-6 -12 -26 -8 -22 8 c2 8 12 16 22 22 c10 -6 20 -14 22 -22 c4 -16 -16 -20 -22 -8 z"/>
+    <rect x="126" y="124" width="24" height="24" rx="4" fill="#fff"/>
+    <text x="156" y="143" font-size="15" font-weight="800" fill="#2b2f36" stroke="none" font-family="Arial,sans-serif">OK?</text>`,
+  // お子さまの情報をそのまま書いている
+  'protect-1': `
+    <rect x="34" y="62" width="92" height="84" rx="6" fill="#fff"/>
+    <path d="M34 80 V68 a6 6 0 0 1 6 -6 h80 a6 6 0 0 1 6 6 V80 Z" fill="url(#dots)"/>
+    <rect class="ac" x="46" y="92" width="64" height="13" rx="3"/>
+    <path d="M46 118 h52 M46 131 h36" fill="none"/>
+    <circle cx="140" cy="124" r="27" fill="#fff"/>
+    <path d="M136 98 q4 -8 10 -4 q-6 2 -4 8" fill="none"/>
+    <g fill="#2b2f36" stroke="none"><circle cx="131" cy="122" r="2.6"/><circle cx="149" cy="122" r="2.6"/></g>
+    <path d="M134 132 q6 5 12 0" fill="none"/>
+    <circle class="ac" cx="150" cy="52" r="17"/>
+    <path d="M150 43 v10" fill="none" stroke-width="4"/><circle cx="150" cy="61" r="2.4" fill="#2b2f36" stroke="none"/>`,
+  // ご案内を記憶に頼って送っている
+  'keep-0': `
+    <path d="M38 176 c4 -22 18 -34 38 -34 s34 12 38 34" fill="#fff"/>
+    <circle cx="76" cy="112" r="25" fill="#fff"/>
+    <path class="ac" d="M51 110 a25 25 0 0 1 49 -8 c-14 0 -28 -6 -32 -18 c-8 8 -14 16 -17 26 z"/>
+    <circle cx="88" cy="114" r="2.6" fill="#2b2f36" stroke="none"/>
+    <circle cx="108" cy="86" r="4" fill="#fff"/>
+    <circle cx="118" cy="73" r="6" fill="#fff"/>
+    <rect x="112" y="28" width="66" height="40" rx="20" fill="#fff"/>
+    <rect class="ac" x="129" y="37" width="32" height="22" rx="3"/>
+    <path d="M129 39 l16 11 l16 -11" fill="none"/>`,
+  // 機種変更・紛失で残るか分からない
+  'keep-1': `
+    <rect x="30" y="62" width="48" height="84" rx="8" fill="#fff"/>
+    <rect x="37" y="74" width="34" height="56" rx="2" fill="url(#dots)"/>
+    <path d="M44 80 l10 14 l-6 9 l13 15" fill="none"/>
+    <rect x="122" y="62" width="48" height="84" rx="8" fill="#fff"/>
+    <text class="ac" x="146" y="117" text-anchor="middle" font-size="34" font-weight="800" stroke="#2b2f36" stroke-width="1.5" font-family="Arial,sans-serif">?</text>
+    <path d="M84 98 q16 -18 32 0" fill="none" stroke-width="10"/>
+    <path class="acs" d="M84 98 q16 -18 32 0" fill="none" stroke-width="5"/>
+    <path d="M106 94 l10 4 l-2 -11" fill="none"/>`,
+  // 顧客管理が続かなかった
+  'keep-2': `
+    <rect x="52" y="48" width="80" height="106" rx="6" fill="#fff"/>
+    <rect class="ac" x="76" y="40" width="32" height="16" rx="4"/>
+    <rect x="64" y="70" width="13" height="13" rx="2" fill="#fff"/><path d="M66 76 l3 4 l6 -7" fill="none"/>
+    <rect x="64" y="92" width="13" height="13" rx="2" fill="#fff"/><path d="M66 98 l3 4 l6 -7" fill="none"/>
+    <rect x="64" y="114" width="13" height="13" rx="2" fill="#fff"/>
+    <rect x="64" y="136" width="13" height="13" rx="2" fill="#fff"/>
+    <path d="M84 76 h36 M84 98 h30" fill="none"/>
+    <path d="M84 120 h32 M84 142 h26" fill="none" stroke-dasharray="2 6"/>
+    <path d="M144 70 L154 96 L164 88 L176 124" fill="none"/>
+    <path d="M168 122 l8 4 l2 -9" fill="none"/>`,
+  // 見直す時間がとれない
+  'keep-3': `
+    <rect x="30" y="66" width="82" height="76" rx="6" fill="#fff"/>
+    <path d="M30 82 V72 a6 6 0 0 1 6 -6 h70 a6 6 0 0 1 6 6 V82 Z" fill="#fff"/>
+    <g>
+      <rect x="38" y="90" width="13" height="10" rx="2" fill="url(#dots)"/><rect x="56" y="90" width="13" height="10" rx="2" fill="url(#dots)"/><rect x="74" y="90" width="13" height="10" rx="2" fill="url(#dots)"/>
+      <rect x="38" y="106" width="13" height="10" rx="2" fill="url(#dots)"/><rect x="56" y="106" width="13" height="10" rx="2" fill="url(#dots)"/><rect x="74" y="106" width="13" height="10" rx="2" fill="url(#dots)"/>
+      <rect x="38" y="122" width="13" height="10" rx="2" fill="url(#dots)"/><rect x="56" y="122" width="13" height="10" rx="2" fill="url(#dots)"/>
+    </g>
+    <circle class="ac" cx="128" cy="104" r="34"/>
+    <circle cx="128" cy="104" r="25" fill="#fff"/>
+    <path d="M128 88 v16 l11 8" fill="none"/>
+    <path d="M166 56 c-5 7 -7 11 -3 14 c4 3 9 -1 7 -6 z" fill="#fff"/>
+    <path d="M152 46 c-3 4 -4 7 -2 9 c3 2 6 -1 4 -4 z" fill="#fff"/>`,
+};
+
+function illSvg(key) {
+  return `<svg class="qi" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <circle cx="100" cy="102" r="82" fill="#efefef"/>
+    <g stroke="#2b2f36" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">${ILLUS[key] || ''}</g>
+  </svg>`;
+}
+
+// 1問ずつ出すための並び（グループ名と色つき）
+const QUESTIONS = GROUPS.flatMap((g) => g.items.map((q, i) => ({ q, key: `${g.id}-${i}`, group: g })));
+const total = QUESTIONS.length;
+let checked = new Set();
+let current = 0;
+let busy = false;
+
+const $ = (id) => document.getElementById(id);
+
+function show(id) {
+  document.querySelectorAll('.screen').forEach((s) => s.classList.toggle('is-active', s.id === id));
+  window.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+function renderQuestion() {
+  const q = QUESTIONS[current];
+  $('q-num').textContent = 'Q' + (current + 1);
+  $('q-bar').style.width = (current / total) * 100 + '%';
+  const card = $('q-card');
+  card.style.setProperty('--tab', q.group.color);
+  card.style.setProperty('--acc', q.group.color);
+  $('q-ill').innerHTML = illSvg(q.key);
+  $('q-text').textContent = q.q;
+  // アニメーションをかけ直す
+  card.style.animation = 'none';
+  void card.offsetWidth;
+  card.style.animation = '';
+  $('ans-yes').classList.remove('is-picked');
+  $('ans-no').classList.remove('is-picked');
+  $('back').disabled = current === 0;
+  busy = false;
+}
+
+function answer(yes) {
+  if (busy) return;
+  busy = true;
+  const q = QUESTIONS[current];
+  if (yes) checked.add(q.key); else checked.delete(q.key);
+  $(yes ? 'ans-yes' : 'ans-no').classList.add('is-picked');
+  setTimeout(() => {
+    if (current < total - 1) {
+      current++;
+      renderQuestion();
+    } else {
+      $('q-bar').style.width = '100%';
+      renderResult();
+      show('screen-result');
+      sendResult();
+      busy = false;
+    }
+  }, 250);
+}
+
+// 回答を匿名で集計に送る（失敗しても画面には影響させない）
+let resultId = '';
+function post(payload) {
+  if (!COLLECT_URL) return;
+  fetch(COLLECT_URL, {
+    method: 'POST', mode: 'no-cors', keepalive: true,
+    headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(payload),
+  }).catch(() => {});
+}
+
+function sendResult() {
+  // ボタンのクリックを同じ回答の行に記録するための番号（毎回ちがう）
+  resultId = (crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10));
+  const score = checked.size;
+  post({
+    id: resultId,
+    answers: QUESTIONS.map((q) => checked.has(q.key)),
+    level: LEVELS.find((l) => score <= l.max).name,
+  });
+}
+
+// 結果画面のボタンを押したことを記録する
+function sendClick(target) {
+  if (resultId) post({ type: 'click', id: resultId, target });
+}
+
+function startCheck() {
+  checked.clear();
+  current = 0;
+  renderQuestion();
+  show('screen-check');
+}
+
+function renderResult() {
+  const score = checked.size;
+  const level = LEVELS.find((l) => score <= l.max);
+  $('result-card').style.setProperty('--tab', level.color);
+  $('score').textContent = score;
+  $('level').textContent = level.name;
+  $('level').style.color = level.text || level.color;
+  $('result-msg').textContent = level.msg;
+  $('gauge').style.width = '0';
+  setTimeout(() => {
+    $('gauge').style.width = Math.max(4, (score / total) * 100) + '%';
+  }, 60);
+
+  // 視点ごとに、どの質問に「はい」と答えたかの一覧（見出しに当てはまった数）
+  // チェックが1つもないときは、ひとことを出さない
+  $('lead-1day').hidden = score === 0;
+
+  const groupsHtml = GROUPS.map((g) => {
+    const n = g.items.filter((_, i) => checked.has(`${g.id}-${i}`)).length;
+    const rows = g.items.map((q, i) => {
+      const on = checked.has(`${g.id}-${i}`);
+      return `<div class="cl-row${on ? ' on' : ''}"><span class="cl-mark">${on ? '✓' : ''}</span><span>${q}</span></div>`;
+    }).join('');
+    return `<div class="cl-group" style="--acc:${g.color}"><div class="cl-head"><span style="color:${g.text}">${g.name}</span><span class="cl-num">${n}<small> / ${g.items.length}</small></span></div>${rows}</div>`;
+  }).join('');
+  $('checklist').innerHTML = `<div class="card cl-card">${groupsHtml}</div>`;
+}
+
+// リンクが空のときは「準備中」にして押せないようにする
+function setupLink(id, url, pendingText) {
+  const a = $(id);
+  if (url) {
+    a.href = url;
+  } else {
+    if (pendingText) a.textContent = pendingText;
+    a.setAttribute('aria-disabled', 'true');
+  }
+}
+
+// 問題数の表示をそろえる
+document.querySelectorAll('.q-count').forEach((el) => { el.textContent = total; });
+
+$('start').addEventListener('click', startCheck);
+$('ans-yes').addEventListener('click', () => answer(true));
+$('ans-no').addEventListener('click', () => answer(false));
+$('back').addEventListener('click', () => { if (current > 0 && !busy) { current--; renderQuestion(); } });
+$('retry').addEventListener('click', startCheck);
+
+setupLink('openchat', OPENCHAT_URL, 'オープンチャット（リンク準備中）');
+setupLink('daiko', DAIKO_URL);
+$('openchat').addEventListener('click', () => sendClick('openchat'));
+$('daiko').addEventListener('click', () => sendClick('daiko'));
+</script>
+</body>
+</html>
