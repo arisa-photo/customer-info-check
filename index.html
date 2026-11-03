@@ -98,7 +98,7 @@
   .float-4{animation-delay:-2.4s}
   @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 
-  .intro-text{font-size:15px;margin:0 0 10px}
+  .intro-text{font-size:13.5px;margin:0 0 10px}
   .intro-list{margin:0;padding-left:1.2em;font-size:14px;color:var(--text-2)}
 
   .groups{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
@@ -107,21 +107,6 @@
   .group-card .divider{margin:8px 6px}
   .num{font-family:var(--font-num);font-style:italic;font-weight:800;color:var(--ink)}
   .group-card .num{font-size:24px;display:block;margin-top:4px}
-  .see-all{display:flex;flex-direction:column;align-items:center;gap:2px;margin:18px auto 0;font-size:12px;font-weight:700;color:var(--muted);text-decoration:none}
-  .see-all span{font-size:14px;animation:nudge 1.6s ease-in-out infinite}
-  @keyframes nudge{50%{transform:translateY(3px)}}
-  #checklist{scroll-margin-top:66px}
-  html{scroll-behavior:smooth}
-  /* 回答した結果：スマホで1画面に収まるよう1枚にまとめて小さめに */
-  .cl-card{margin-top:16px;padding:14px 16px 10px}
-  .cl-group + .cl-group{margin-top:8px;padding-top:8px;border-top:1px solid var(--line)}
-  .cl-head{display:flex;align-items:baseline;gap:8px;font-size:14px;font-weight:700;margin-bottom:2px}
-  .cl-num{font-family:var(--font-num);font-style:italic;font-weight:800;font-size:16px;color:var(--ink)}
-  .cl-num small{font-style:normal;font-size:11px;font-weight:700}
-  .cl-row{display:flex;gap:8px;align-items:flex-start;padding:4px 0;font-size:12.5px;line-height:1.45;color:var(--muted)}
-  .cl-row.on{color:var(--ink);font-weight:700}
-  .cl-mark{flex:0 0 16px;height:16px;border-radius:50%;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;margin-top:1px}
-  .cl-row.on .cl-mark{background:var(--acc);border-color:var(--acc)}
   .group-card .num small{font-family:var(--font-sans);font-style:normal;font-size:12px;font-weight:700}
 
   /* 質問 */
@@ -248,7 +233,7 @@
         <path d="M78 22 v6 M75 25 h6" stroke="#f6c02e" stroke-width="2" stroke-linecap="round"/>
       </svg>
       <div class="divider"></div>
-      <p class="intro-text">お客様の連絡先、予約、住所、写真の掲載許可…。気づかないうちに、いろいろな場所に散らばっていませんか？</p>
+      <p class="intro-text">お客様の連絡先、予約、住所、写真の掲載許可、商品の発注や納品状況…。気づかないうちに、いろいろな場所に散らばっていませんか？</p>
       <p class="intro-text">責めるためのチェックではありません。今の状態を、一緒に確認してみましょう。</p>
       <ul class="intro-list">
         <li>1問ずつ「はい／いいえ」をタップするだけ</li>
@@ -288,8 +273,6 @@
       <p class="result-msg" id="result-msg"></p>
     </div>
 
-    <a class="see-all" href="#checklist">あなたの回答一覧はこちら<span aria-hidden="true">↓</span></a>
-    <div id="checklist"></div>
 
     <p class="lead-1day" id="lead-1day">1つでもチェックがついたあなたに</p>
     <div class="card info-card" id="next-self" style="--tab:var(--red)">
@@ -315,7 +298,7 @@
         <path d="M62 66 L82 52" stroke="#f3c9a8" stroke-width="6" stroke-linecap="round"/>
         <path d="M180 100 v7 M176.5 103.5 h7" stroke="#e2445c" stroke-width="2" stroke-linecap="round"/>
       </svg>
-      <span class="pre">1/5 無料1day講座</span>
+      <span class="pre">2027年1月5日 無料1day講座</span>
       <h3>信頼されるフォトグラファーの<br>情報管理講座</h3>
       <p>お客様情報を1か所にまとめて、安心して管理する方法を一緒に確認します。講座のご案内は、オープンチャットでお届けします。</p>
       <a class="btn btn-red" id="openchat" target="_blank" rel="noopener">オープンチャットに参加する</a>
@@ -601,19 +584,8 @@ function renderResult() {
     $('gauge').style.width = Math.max(4, (score / total) * 100) + '%';
   }, 60);
 
-  // 視点ごとに、どの質問に「はい」と答えたかの一覧（見出しに当てはまった数）
   // チェックが1つもないときは、ひとことを出さない
   $('lead-1day').hidden = score === 0;
-
-  const groupsHtml = GROUPS.map((g) => {
-    const n = g.items.filter((_, i) => checked.has(`${g.id}-${i}`)).length;
-    const rows = g.items.map((q, i) => {
-      const on = checked.has(`${g.id}-${i}`);
-      return `<div class="cl-row${on ? ' on' : ''}"><span class="cl-mark">${on ? '✓' : ''}</span><span>${q}</span></div>`;
-    }).join('');
-    return `<div class="cl-group" style="--acc:${g.color}"><div class="cl-head"><span style="color:${g.text}">${g.name}</span><span class="cl-num">${n}<small> / ${g.items.length}</small></span></div>${rows}</div>`;
-  }).join('');
-  $('checklist').innerHTML = `<div class="card cl-card">${groupsHtml}</div>`;
 }
 
 // リンクが空のときは「準備中」にして押せないようにする
