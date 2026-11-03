@@ -82,6 +82,11 @@
   .btn:active{transform:translateY(2px);box-shadow:0 4px 10px rgba(134,117,106,.28)}
   .btn-yellow{background:var(--yellow);box-shadow:0 8px 16px rgba(246,192,46,.38)}
   .btn-red{background:var(--red);box-shadow:0 8px 16px rgba(226,68,92,.30)}
+  .btn[hidden]{display:none}
+  /* オープンチャット公開前のお知らせ */
+  .notice-line{background:#f7f2ee;border-radius:10px;padding:14px 16px;font-size:13px;line-height:1.7;color:var(--text-2);text-align:center}
+  .notice-line[hidden]{display:none}
+  .line-add{display:inline-block;margin-top:10px;padding:8px 18px;border-radius:999px;background:#06c755;color:#fff;font-size:13px;font-weight:700;text-decoration:none}
   .btn-green{background:var(--green);box-shadow:0 8px 16px rgba(67,199,122,.35)}
   .btn-white{background:var(--white);color:var(--text-2);box-shadow:0 6px 14px rgba(40,60,100,.12)}
   /* パソコンでカーソルを当てたら白いボタンをブラウンに */
@@ -298,10 +303,14 @@
         <path d="M62 66 L82 52" stroke="#f3c9a8" stroke-width="6" stroke-linecap="round"/>
         <path d="M180 100 v7 M176.5 103.5 h7" stroke="#e2445c" stroke-width="2" stroke-linecap="round"/>
       </svg>
-      <span class="pre">2027年1月5日 無料1day講座</span>
+      <span class="pre">2027年1月5日（火）21:00〜 無料1day講座</span>
       <h3>信頼されるフォトグラファーの<br>情報管理講座</h3>
-      <p>お客様情報を1か所にまとめて、安心して管理する方法を一緒に確認します。講座のご案内は、オープンチャットでお届けします。</p>
-      <a class="btn btn-red" id="openchat" target="_blank" rel="noopener">オープンチャットに参加する</a>
+      <p>お客様情報を1か所にまとめて、安心して管理する方法を一緒に確認します。<span id="openchat-note" hidden>講座のご案内は、オープンチャットでお届けします。</span></p>
+      <a class="btn btn-red" id="openchat" target="_blank" rel="noopener" hidden>オープンチャットに参加する</a>
+      <div class="notice-line" id="notice-line">
+        <span aria-hidden="true">📩</span> 講座のご案内は、12月中旬に公式LINEでお届けします。<br>このままLINEの友だち登録を続けてお待ちください。
+        <a class="line-add" id="line-add" target="_blank" rel="noopener">まだの方は、公式LINEに友だち追加</a>
+      </div>
     </div>
 
     <!-- 枠のどこを押しても代行の資料へ -->
@@ -319,6 +328,10 @@
 <script>
 // オープンチャットのリンク
 const OPENCHAT_URL = 'https://line.me/ti/g2/1C6r4AXAsc1FpjFYlZrcxKc9_njRyxtDdLG2nA?utm_source=invitation&utm_medium=link_copy&utm_campaign=default';
+// この日（日本時間の0時）から、お知らせの代わりにオープンチャットのボタンを出す
+const OPENCHAT_START = '2026-12-12T00:00:00+09:00';
+// Notion講座の公式LINE（友だち追加）
+const LINE_URL = 'https://lin.ee/rK6cyzv';
 // 構築代行のHPのリンク（決まったらここに入れる）
 const DAIKO_URL = 'https://friendly-pudding-f16.notion.site/Notion-2fae9930523b80d2a079ec5dca864c5e?source=copy_link';
 // 回答を Notion に集計する GAS のウェブアプリURL（空のあいだは送信しない）
@@ -609,6 +622,13 @@ $('back').addEventListener('click', () => { if (current > 0 && !busy) { current-
 $('retry').addEventListener('click', startCheck);
 
 setupLink('openchat', OPENCHAT_URL, 'オープンチャット（リンク準備中）');
+setupLink('line-add', LINE_URL);
+
+// 切り替え日までは「公式LINEでお届けします」、その日からオープンチャットのボタン
+const openchatOpen = Date.now() >= new Date(OPENCHAT_START).getTime();
+$('openchat').hidden = !openchatOpen;
+$('notice-line').hidden = openchatOpen;
+$('openchat-note').hidden = !openchatOpen;
 setupLink('daiko', DAIKO_URL);
 $('openchat').addEventListener('click', () => sendClick('openchat'));
 $('daiko').addEventListener('click', () => sendClick('daiko'));
