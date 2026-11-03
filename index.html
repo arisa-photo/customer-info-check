@@ -86,7 +86,7 @@
   /* オープンチャット公開前のお知らせ */
   .notice-line{background:#f7f2ee;border-radius:10px;padding:14px 16px;font-size:13px;line-height:1.7;color:var(--text-2);text-align:center}
   .notice-line[hidden]{display:none}
-  .line-add{display:inline-block;margin-top:10px;padding:8px 18px;border-radius:999px;background:#06c755;color:#fff;font-size:13px;font-weight:700;text-decoration:none}
+  .line-add{display:table;margin:10px auto 0;padding:8px 18px;border-radius:999px;background:#06c755;color:#fff;font-size:13px;font-weight:700;text-decoration:none}
   .btn-green{background:var(--green);box-shadow:0 8px 16px rgba(67,199,122,.35)}
   .btn-white{background:var(--white);color:var(--text-2);box-shadow:0 6px 14px rgba(40,60,100,.12)}
   /* パソコンでカーソルを当てたら白いボタンをブラウンに */
@@ -103,8 +103,7 @@
   .float-4{animation-delay:-2.4s}
   @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 
-  .intro-text{font-size:13.5px;margin:0 0 10px}
-  .intro-list{margin:0;padding-left:1.2em;font-size:14px;color:var(--text-2)}
+  .intro-text{font-size:13.5px;margin:0;text-align:center}
 
   .groups{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
   .group-card{padding:22px 8px 14px;text-align:center;margin-top:20px}
@@ -146,9 +145,14 @@
   .result-msg{margin:0;font-size:15px;text-align:left}
 
   /* 1day案内の前のひとこと */
-  .lead-1day{text-align:center;margin:34px 0 -12px;font-size:16px;font-weight:700;color:var(--btn)}
-  .lead-1day::before,.lead-1day::after{content:"";display:inline-block;width:18px;height:2px;background:currentColor;vertical-align:middle;margin:0 10px;border-radius:2px}
+  .lead-1day{text-align:center;margin:34px 0 0;font-size:16px;font-weight:700;color:var(--btn)}
   .lead-1day[hidden]{display:none}
+  /* 下へ流れる線で、続きがあることを知らせる */
+  .scroll-down{display:flex;flex-direction:column;align-items:center;gap:6px;margin:12px 0 -10px;color:var(--btn);font-size:10px;font-weight:700;letter-spacing:.2em}
+  .scroll-down[hidden]{display:none}
+  .scroll-down i{position:relative;width:1px;height:44px;background:#ddd3ca;overflow:hidden}
+  .scroll-down i::after{content:"";position:absolute;left:0;top:-40%;width:1px;height:40%;background:var(--btn);animation:scroll-down 1.8s ease-in-out infinite}
+  @keyframes scroll-down{to{top:100%}}
   /* 構築代行：枠なしの1行案内。「＞」を丸いボタンに */
   .daiko{display:block;text-decoration:none;cursor:pointer;transition:box-shadow .2s;margin-top:42px;text-align:center;background:var(--white);border-radius:10px;box-shadow:var(--shadow);padding:20px 18px}
   .daiko-link{display:inline-flex;align-items:center;gap:10px;font-size:16px;font-weight:700;color:var(--btn);text-decoration:none}
@@ -179,7 +183,7 @@
     </pattern>
   </defs>
 </svg>
-<header class="topbar">
+<header class="topbar" id="topbar" hidden>
   <div class="topbar-inner">
     <span class="brand">arisa newborn photo</span>
     <span class="topbar-title">お客様情報の散らばり度チェック</span>
@@ -189,8 +193,7 @@
 <div class="wrap">
   <!-- はじめ -->
   <section class="screen is-active" id="screen-intro">
-    <span class="eyebrow">フォトグラファーのための1分セルフチェック</span>
-    <h1 class="title">お客様情報<br>散らばっていませんか？</h1>
+    <h1 class="title" style="margin-top:32px">お客様情報<br>散らばっていませんか？</h1>
 
     <div class="card no-tab">
       <div class="badge"><small>全<span class="q-count">10</span>問</small><b>1分</b></div>
@@ -238,11 +241,7 @@
         <path d="M78 22 v6 M75 25 h6" stroke="#f6c02e" stroke-width="2" stroke-linecap="round"/>
       </svg>
       <div class="divider"></div>
-      <p class="intro-text">お客様の連絡先、予約、住所、写真の掲載許可、商品の発注や納品状況…。気づかないうちに、いろいろな場所に散らばっていませんか？</p>
-      <p class="intro-text">責めるためのチェックではありません。今の状態を、一緒に確認してみましょう。</p>
-      <ul class="intro-list">
-        <li>1問ずつ「はい／いいえ」をタップするだけ</li>
-      </ul>
+      <p class="intro-text">今の状態を、一緒に確認してみましょう。</p>
     </div>
 
     <button class="btn mt" id="start">チェックをはじめる</button>
@@ -280,6 +279,7 @@
 
 
     <p class="lead-1day" id="lead-1day">1つでもチェックがついたあなたに</p>
+    <div class="scroll-down" id="scroll-down" aria-hidden="true"><span>SCROLL</span><i></i></div>
     <div class="card info-card" id="next-self" style="--tab:var(--red)">
       <svg class="ill" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <ellipse cx="100" cy="143" rx="80" ry="5" fill="#eef1f7"/>
@@ -308,8 +308,8 @@
       <p>お客様情報を1か所にまとめて、安心して管理する方法を一緒に確認します。<span id="openchat-note" hidden>講座のご案内は、オープンチャットでお届けします。</span></p>
       <a class="btn btn-red" id="openchat" target="_blank" rel="noopener" hidden>オープンチャットに参加する</a>
       <div class="notice-line" id="notice-line">
-        <span aria-hidden="true">📩</span> 講座のご案内は、12月中旬に公式LINEでお届けします。<br>このままLINEの友だち登録を続けてお待ちください。
-        <a class="line-add" id="line-add" target="_blank" rel="noopener">まだの方は、公式LINEに友だち追加</a>
+        <span aria-hidden="true">📩</span> 講座の案内を12月中旬にお届け！<br>見逃さないように登録してチェック
+        <a class="line-add" id="line-add" target="_blank" rel="noopener">公式LINEに登録する</a>
       </div>
     </div>
 
@@ -509,6 +509,8 @@ const $ = (id) => document.getElementById(id);
 
 function show(id) {
   document.querySelectorAll('.screen').forEach((s) => s.classList.toggle('is-active', s.id === id));
+  // はじめの画面ではタイトルのバーを出さない
+  $('topbar').hidden = id === 'screen-intro';
   window.scrollTo({ top: 0, behavior: 'instant' });
 }
 
@@ -599,6 +601,7 @@ function renderResult() {
 
   // チェックが1つもないときは、ひとことを出さない
   $('lead-1day').hidden = score === 0;
+  $('scroll-down').hidden = score === 0;
 }
 
 // リンクが空のときは「準備中」にして押せないようにする
