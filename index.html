@@ -156,7 +156,7 @@
   /* 構築代行：枠なしの1行案内。「＞」を丸いボタンに */
   .daiko{display:block;text-decoration:none;cursor:pointer;transition:box-shadow .2s;margin-top:42px;text-align:center;background:var(--white);border-radius:10px;box-shadow:var(--shadow);padding:20px 18px}
   .daiko-link{display:inline-flex;align-items:center;gap:10px;font-size:16px;font-weight:700;color:var(--btn);text-decoration:none}
-  .daiko-arrow{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:var(--btn);color:#fff;font-size:13px;box-shadow:0 4px 10px rgba(134,117,106,.32);transition:transform .2s}
+  .daiko-arrow{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:#f16d7a;color:#fff;font-size:13px;box-shadow:0 4px 10px rgba(241,109,122,.32);transition:transform .2s}
   .daiko:hover{box-shadow:0 8px 22px rgba(40,60,100,.14)}
   .daiko:hover .daiko-arrow{transform:translateX(3px)}
   .daiko[aria-disabled="true"]{pointer-events:none}
@@ -167,7 +167,6 @@
   .info-card .pre{display:block;text-align:center;font-size:13px;font-weight:700;color:var(--ink)}
   .info-card p{margin:12px 0 22px;font-size:14px;color:var(--text-2)}
 
-  .shot{font-size:13px;color:var(--text-2);text-align:center;margin-top:28px}
   .note{font-size:12px;color:var(--muted);margin-top:24px}
 
   @media (prefers-reduced-motion:reduce){
@@ -296,8 +295,7 @@
       <span class="daiko-desc">お客様情報をまとめて管理するしくみを、arisaが代わりにお作りします。</span>
     </a>
 
-    <p class="shot">この画面をスクリーンショットしておくと、あとで見返せます</p>
-    <button class="btn btn-white mt" id="retry">もう一度チェックする</button>
+    <button class="btn mt" id="retry">もう一度チェックする</button>
     <p class="note">※このチェックは、管理のしかたを見直すきっかけにするためのものです。法律上の判断をするものではありません。<br>※回答内容（はい／いいえと結果）は、お名前などを含まない匿名のデータとして集計し、内容の改善に使わせていただきます。</p>
   </section>
 </div>
@@ -343,6 +341,7 @@ const GROUPS = [
 ];
 
 const LEVELS = [
+  { max: 0, name: 'すっきり', color: 'var(--green)', msg: 'すばらしい！お客様情報がきちんとまとまっています。お客様が増えても、この状態をキープしていきましょう。' },
   { max: 2, name: 'すっきり', color: 'var(--green)', msg: 'かなり整っています。「はい」と答えたところだけ見直せば、さらに安心して管理できます。' },
   { max: 5, name: 'ちょっと散らばり', color: 'var(--yellow)', text: 'var(--yellow-text)', msg: 'お客様情報が、少しずつあちこちに散らばり始めています。いまのうちに1か所にまとめておくと、お客様が増えてもあわてずに済みます。' },
   { max: Infinity, name: '散らばり度高め', color: 'var(--red)', msg: '忙しい中で、その場その場でがんばってきた証拠です。全部を一度に直さなくて大丈夫。できるところから、一緒に整えていきましょう。' },
@@ -576,9 +575,8 @@ function renderResult() {
     $('gauge').style.width = Math.max(4, (score / total) * 100) + '%';
   }, 60);
 
-  // チェックが1つもないときは、ひとことを出さない
-  $('lead-1day').hidden = score === 0;
-  $('scroll-down').hidden = score === 0;
+  // チェックが1つもないときは、講座へのひとことを0個向けに変える
+  $('lead-1day').textContent = score === 0 ? 'この状態をずっと続けたいあなたに' : '1つでもチェックがついたあなたに';
 }
 
 // リンクが空のときは「準備中」にして押せないようにする
