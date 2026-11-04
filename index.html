@@ -162,6 +162,7 @@
   .daiko[aria-disabled="true"]{pointer-events:none}
   .daiko-desc{display:block;margin-top:8px;font-size:13px;color:var(--text-2)}
   .info-card .ill{max-width:220px;margin-bottom:8px}
+  .seminar-img{display:block;width:100%;height:auto;border-radius:8px;margin:0 0 16px}
   .info-card h3{text-align:center;font-size:19px;color:var(--tab)}
   .info-card .pre{display:block;text-align:center;font-size:13px;font-weight:700;color:var(--ink)}
   .info-card p{margin:12px 0 22px;font-size:14px;color:var(--text-2)}
@@ -281,35 +282,11 @@
     <p class="lead-1day" id="lead-1day">1つでもチェックがついたあなたに</p>
     <div class="scroll-down" id="scroll-down" aria-hidden="true"><span>SCROLL</span><i></i></div>
     <div class="card info-card" id="next-self" style="--tab:var(--red)">
-      <svg class="ill" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <ellipse cx="100" cy="143" rx="80" ry="5" fill="#eef1f7"/>
-        <!-- ボード -->
-        <rect x="76" y="12" width="108" height="74" rx="5" fill="#eceff5"/>
-        <path d="M100 86 L94 140 M160 86 L166 140" stroke="#c9d1de" stroke-width="4" stroke-linecap="round"/>
-        <g>
-          <rect x="88" y="26" width="10" height="10" rx="2" fill="#43c77a"/><path d="M90 31 l2.5 2.5 l4 -5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><rect x="104" y="28" width="66" height="6" rx="3" fill="#d7dce6"/>
-          <rect x="88" y="44" width="10" height="10" rx="2" fill="#43c77a"/><path d="M90 49 l2.5 2.5 l4 -5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><rect x="104" y="46" width="54" height="6" rx="3" fill="#d7dce6"/>
-          <rect x="88" y="62" width="10" height="10" rx="2" fill="#fff" stroke="#c9d1de"/><rect x="104" y="64" width="60" height="6" rx="3" fill="#f6c02e"/>
-        </g>
-        <!-- 人 -->
-        <rect x="40" y="98" width="9" height="42" rx="4" fill="#2d3a5a"/>
-        <rect x="53" y="98" width="9" height="42" rx="4" fill="#2d3a5a"/>
-        <path d="M36 138 h15 v5 h-15 z M51 138 h15 v5 h-15 z" fill="#2b2f36"/>
-        <rect x="36" y="56" width="30" height="46" rx="12" fill="#2b8fe0"/>
-        <circle cx="51" cy="42" r="11" fill="#f3c9a8"/>
-        <path d="M39 44 a12 12 0 0 1 24 -4 c-2 10 -4 18 -2 26 c-8 -2 -14 -2 -24 0 c2 -8 2 -14 2 -22 z" fill="#2d3a5a"/>
-        <circle cx="51" cy="43" r="9" fill="#f3c9a8"/>
-        <path d="M42 38 a9 9 0 0 1 18 0 c-6 -4 -12 -4 -18 0 z" fill="#2d3a5a"/>
-        <path d="M62 66 L82 52" stroke="#f3c9a8" stroke-width="6" stroke-linecap="round"/>
-        <path d="M180 100 v7 M176.5 103.5 h7" stroke="#e2445c" stroke-width="2" stroke-linecap="round"/>
-      </svg>
-      <span class="pre">2027年1月5日（火）21:00〜 無料1day講座</span>
-      <h3>信頼されるフォトグラファーの<br>情報管理講座</h3>
-      <p>お客様情報を1か所にまとめて、安心して管理する方法を一緒に確認します。<span id="openchat-note" hidden>講座のご案内は、オープンチャットでお届けします。</span></p>
+      <img class="seminar-img" src="seminar_banner.webp" width="1280" height="720" alt="信頼とリピートにつながる お客様情報とデータのまとめ方　2027年1月5日（火）21:00〜22:30　オンライン配信・参加無料　講師：arisa">
       <a class="btn btn-red" id="openchat" target="_blank" rel="noopener" hidden>オープンチャットに参加する</a>
       <div class="notice-line" id="notice-line">
-        <span aria-hidden="true">📩</span> 講座の案内を12月中旬にお届け！<br>見逃さないように登録してチェック
-        <a class="line-add" id="line-add" target="_blank" rel="noopener">公式LINEに登録する</a>
+        <span aria-hidden="true">📩</span> 講座の案内を12月中旬にお届け！
+        <a class="line-add" id="line-add" target="_blank" rel="noopener">見逃さないように登録</a>
       </div>
     </div>
 
@@ -631,7 +608,6 @@ setupLink('line-add', LINE_URL);
 const openchatOpen = Date.now() >= new Date(OPENCHAT_START).getTime();
 $('openchat').hidden = !openchatOpen;
 $('notice-line').hidden = openchatOpen;
-$('openchat-note').hidden = !openchatOpen;
 setupLink('daiko', DAIKO_URL);
 $('openchat').addEventListener('click', () => sendClick('openchat'));
 $('daiko').addEventListener('click', () => sendClick('daiko'));
