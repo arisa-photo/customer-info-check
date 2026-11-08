@@ -316,9 +316,8 @@ const GROUPS = [
   {
     id: 'spread', name: 'まとまり', color: 'var(--blue)', text: 'var(--blue)',
     items: [
-      'お客様の連絡先が、LINE・インスタのDM・スマホのメモなど、2か所以上に分かれている',
-      '予約の内容（日時・プラン・オプション）を書く場所が決まっていない',
-      '出張撮影の住所が、LINEのトーク履歴にしか残っていない',
+      '予約やお問い合わせが、LINE・インスタ・Threadsなど、2か所以上から来ている',
+      '届いた予約を、LINEやDMから手帳やメモに書き写している',
       '「このお客様、前回いつ撮影したっけ？」を探すのに時間がかかる',
     ]
   },
@@ -326,14 +325,15 @@ const GROUPS = [
     id: 'protect', name: '守り', color: 'var(--green)', text: 'var(--green)',
     items: [
       'SNSやHPに写真を載せていいか、許可をもらったかどうかを記録していない',
-      'お子さまの名前や生年月日を、カレンダーやメモにそのまま書いている',
+      'お子さまの名前や生年月日を、手帳やカレンダーにそのまま書いている',
+      'インスタやLINEが使えなくなったら、連絡がとれなくなるお客様がいる',
+      'お客様の住所や連絡先が、LINEのトーク履歴にしか残っていない',
     ]
   },
   {
     id: 'keep', name: '続け方', color: 'var(--yellow)', text: 'var(--yellow-text)',
     items: [
       '撮影したお客様に、次の記念撮影のご案内を送るしくみがない',
-      'スマホをなくしたり機種変更したりしたとき、お客様情報が残るか分からない',
       '顧客管理を始めてみたけど、続かなかったことがある',
       'お客様情報を見直す時間が、月に1回もとれていない',
     ]
@@ -349,7 +349,7 @@ const LEVELS = [
 
 // 質問ごとのイラスト（キーは「グループid-番号」）
 const ILLUS = {
-  // 連絡先があちこちに
+  // 予約の入口があちこちに
   'spread-0': `
     <path d="M74 74 L58 60 M126 72 L142 58 M126 124 L140 132" stroke-dasharray="3 7" fill="none"/>
     <rect x="76" y="62" width="48" height="84" rx="8" fill="#fff"/>
@@ -362,7 +362,7 @@ const ILLUS = {
     <path d="M149 38 h20 M149 47 h20 M149 56 h12" fill="none"/>
     <path class="ac" d="M138 128 L180 112 L166 152 L157 136 Z"/>
     <path d="M157 136 L180 112" fill="none"/>`,
-  // 予約を書く場所が決まっていない
+  // 手帳やメモに書き写している
   'spread-1': `
     <rect x="46" y="62" width="96" height="84" rx="6" fill="#fff"/>
     <path class="ac" d="M46 80 V68 a6 6 0 0 1 6 -6 h84 a6 6 0 0 1 6 6 V80 Z"/>
@@ -375,8 +375,8 @@ const ILLUS = {
     <g transform="rotate(10 150 150)"><rect x="134" y="136" width="32" height="28" rx="2" fill="#fff"/><path d="M141 146 h18 M141 154 h12" fill="none"/></g>
     <circle class="ac" cx="154" cy="50" r="19"/>
     <text x="154" y="59" text-anchor="middle" font-size="25" font-weight="800" fill="#2b2f36" stroke="none" font-family="Arial,sans-serif">?</text>`,
-  // 住所がトーク履歴にしかない
-  'spread-2': `
+  // 住所や連絡先がトーク履歴にしかない
+  'protect-3': `
     <rect x="48" y="52" width="72" height="106" rx="10" fill="#fff"/>
     <rect x="58" y="70" width="40" height="15" rx="7.5" fill="url(#dots)"/>
     <rect x="70" y="93" width="40" height="15" rx="7.5" fill="#fff"/>
@@ -386,7 +386,7 @@ const ILLUS = {
     <path class="ac" d="M150 112 C136 96 130 86 130 74 a20 20 0 0 1 40 0 c0 12 -6 22 -20 38 z"/>
     <circle cx="150" cy="74" r="7" fill="#fff"/>`,
   // 前回の撮影がすぐ分からない
-  'spread-3': `
+  'spread-2': `
     <rect x="44" y="58" width="72" height="90" rx="4" fill="#fff" transform="rotate(-7 80 103)"/>
     <rect x="56" y="50" width="72" height="90" rx="4" fill="#fff"/>
     <path d="M68 68 h46 M68 82 h46 M68 96 h30 M68 110 h38" fill="none"/>
@@ -429,8 +429,8 @@ const ILLUS = {
     <rect x="112" y="28" width="66" height="40" rx="20" fill="#fff"/>
     <rect class="ac" x="129" y="37" width="32" height="22" rx="3"/>
     <path d="M129 39 l16 11 l16 -11" fill="none"/>`,
-  // 機種変更・紛失で残るか分からない
-  'keep-1': `
+  // SNSが使えなくなったら連絡できない
+  'protect-2': `
     <rect x="30" y="62" width="48" height="84" rx="8" fill="#fff"/>
     <rect x="37" y="74" width="34" height="56" rx="2" fill="url(#dots)"/>
     <path d="M44 80 l10 14 l-6 9 l13 15" fill="none"/>
@@ -440,7 +440,7 @@ const ILLUS = {
     <path class="acs" d="M84 98 q16 -18 32 0" fill="none" stroke-width="5"/>
     <path d="M106 94 l10 4 l-2 -11" fill="none"/>`,
   // 顧客管理が続かなかった
-  'keep-2': `
+  'keep-1': `
     <rect x="52" y="48" width="80" height="106" rx="6" fill="#fff"/>
     <rect class="ac" x="76" y="40" width="32" height="16" rx="4"/>
     <rect x="64" y="70" width="13" height="13" rx="2" fill="#fff"/><path d="M66 76 l3 4 l6 -7" fill="none"/>
@@ -452,7 +452,7 @@ const ILLUS = {
     <path d="M144 70 L154 96 L164 88 L176 124" fill="none"/>
     <path d="M168 122 l8 4 l2 -9" fill="none"/>`,
   // 見直す時間がとれない
-  'keep-3': `
+  'keep-2': `
     <rect x="30" y="66" width="82" height="76" rx="6" fill="#fff"/>
     <path d="M30 82 V72 a6 6 0 0 1 6 -6 h70 a6 6 0 0 1 6 6 V82 Z" fill="#fff"/>
     <g>
